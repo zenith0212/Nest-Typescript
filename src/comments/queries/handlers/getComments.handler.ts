@@ -13,7 +13,7 @@ export class GetCommentsHandler implements IQueryHandler<GetCommentsQuery> {
 
   async execute(query: GetCommentsQuery) {
     if (query.postId) {
-      return this.commentsRepository.find({
+      return this.commentsRepository.findBy({
         post: {
           id: query.postId
         }

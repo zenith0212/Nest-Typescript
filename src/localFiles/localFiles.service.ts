@@ -17,7 +17,7 @@ class LocalFilesService {
   }
 
   async getFileById(fileId: number) {
-    const file = await this.localFilesRepository.findOne(fileId);
+    const file = await this.localFilesRepository.findOneBy({ id : fileId });
     if (!file) {
       throw new NotFoundException();
     }

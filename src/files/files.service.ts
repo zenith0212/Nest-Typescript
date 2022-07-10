@@ -32,7 +32,7 @@ export class FilesService {
   }
 
   async deletePublicFile(fileId: number) {
-    const file = await this.publicFilesRepository.findOne({ id: fileId });
+    const file = await this.publicFilesRepository.findOneBy({ id: fileId });
     const s3 = new S3();
     await s3.deleteObject({
       Bucket: this.configService.get('AWS_PUBLIC_BUCKET_NAME'),
@@ -42,7 +42,7 @@ export class FilesService {
   }
 
   async deletePublicFileWithQueryRunner(fileId: number, queryRunner: QueryRunner) {
-    const file = await queryRunner.manager.findOne(PublicFile, { id: fileId });
+    const file = await queryRunner.manager.findOneBy(PublicFile, { id: fileId });
     const s3 = new S3();
     await s3.deleteObject({
       Bucket: this.configService.get('AWS_PUBLIC_BUCKET_NAME'),

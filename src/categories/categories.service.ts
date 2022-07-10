@@ -22,7 +22,11 @@ export default class CategoriesService {
    * @returns A promise with the list of categories
    */
   getAllCategories(): Promise<Category[]> {
-    return this.categoriesRepository.find({ relations: ['posts'] });
+    return this.categoriesRepository.find({
+      relations: {
+        posts: true
+      }
+    });
   }
 
   /**
@@ -33,9 +37,13 @@ export default class CategoriesService {
    */
   async getCategoryById(id: number): Promise<Category> {
     const category = await this.categoriesRepository.findOne(
-      id,
       {
-        relations: ['posts'],
+        where: {
+          id
+        },
+        relations: {
+          posts: true
+        },
         withDeleted: true
       }
     );
@@ -63,7 +71,14 @@ export default class CategoriesService {
    */
   async updateCategory(id: number, category: UpdateCategoryDto): Promise<Category> {
     await this.categoriesRepository.update(id, category);
-    const updatedCategory = await this.categoriesRepository.findOne(id, { relations: ['posts'] });
+    const updatedCategory = await this.categoriesRepository.findOne({
+      where: {
+        id
+      },
+      relations: {
+        posts: true
+      }
+    });
     if (updatedCategory) {
       return updatedCategory
     }

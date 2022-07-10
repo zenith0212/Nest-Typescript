@@ -57,12 +57,19 @@ export default class PostsService {
 
   async getPostsWithAuthors(offset?: number, limit?: number, startId?: number) {
     return this.getPosts(offset, limit, startId, {
-      relations: ['author'],
+      relations: {
+        author: true
+      }
     })
   }
 
   async getPostById(id: number) {
-    const post = await this.postsRepository.findOne(id, { relations: ['author'] });
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      relations: {
+        author: true
+      }
+    });
     if (post) {
       return post;
     }
@@ -83,7 +90,14 @@ export default class PostsService {
 
   async updatePost(id: number, post: UpdatePostDto) {
     await this.postsRepository.update(id, post);
-    const updatedPost = await this.postsRepository.findOne(id, { relations: ['author'] });
+    const updatedPost = await this.postsRepository.findOne({
+      where: {
+        id
+      },
+      relations: {
+        author: true
+      }
+    });
     if (updatedPost) {
       await this.postsSearchService.update(updatedPost);
       await this.clearCache();
