@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Connection, In } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import User from './user.entity';
 import CreateUserDto from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
@@ -14,7 +14,6 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private readonly databaseFilesService: DatabaseFilesService,
-    private connection: Connection,
     private stripeService: StripeService,
     private localFilesService: LocalFilesService
   ) {}
