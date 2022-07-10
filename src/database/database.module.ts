@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import DatabaseLogger from './databaseLogger';
+import Address from '../users/address.entity';
 
 @Module({
   imports: [
@@ -17,9 +18,10 @@ import DatabaseLogger from './databaseLogger';
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
         entities: [
-          __dirname + '/../**/*.entity{.ts,.js}',
+          Address
         ],
         synchronize: true,
+        autoLoadEntities: true
       })
     }),
   ],
