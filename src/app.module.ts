@@ -32,6 +32,7 @@ import { LoggerModule } from './logger/logger.module';
 import HealthModule from './health/health.module';
 import { DatabaseFilesModule } from './databaseFiles/databaseFiles.module';
 import { LocalFilesModule } from './localFiles/localFiles.module';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -45,9 +46,10 @@ import { LocalFilesModule } from './localFiles/localFiles.module';
       }),
       inject: [ConfigService],
     }),
-    GraphQLModule.forRootAsync({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       imports: [ConfigModule],
       inject: [ConfigService],
+      driver: ApolloDriver,
       useFactory: (
         configService: ConfigService,
       ) => ({
