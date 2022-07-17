@@ -11,24 +11,29 @@ interface LocalFilesInterceptorOptions {
   limits?: MulterOptions['limits'];
 }
 
-function LocalFilesInterceptor (options: LocalFilesInterceptorOptions): Type<NestInterceptor> {
+function LocalFilesInterceptor(
+  options: LocalFilesInterceptorOptions,
+): Type<NestInterceptor> {
   @Injectable()
   class Interceptor implements NestInterceptor {
     fileInterceptor: NestInterceptor;
     constructor(configService: ConfigService) {
       const filesDestination = configService.get('UPLOADED_FILES_DESTINATION');
 
-      const destination = `${filesDestination}${options.path}`
+      const destination = `${filesDestination}${options.path}`;
 
       const multerOptions: MulterOptions = {
         storage: diskStorage({
-          destination
+          destination,
         }),
         fileFilter: options.fileFilter,
-        limits: options.limits
-      }
+        limits: options.limits,
+      };
 
-      this.fileInterceptor = new (FileInterceptor(options.fieldName, multerOptions));
+      this.fileInterceptor = new (FileInterceptor(
+        options.fieldName,
+        multerOptions,
+      ))();
     }
 
     intercept(...args: Parameters<NestInterceptor['intercept']>) {

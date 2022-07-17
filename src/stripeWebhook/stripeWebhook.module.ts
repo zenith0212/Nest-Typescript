@@ -7,11 +7,7 @@ import StripeEvent from './StripeEvent.entity';
 import StripeWebhookService from './stripeWebhook.service';
 
 @Module({
-  imports: [
-    StripeModule,
-    UsersModule,
-    TypeOrmModule.forFeature([StripeEvent]),
-  ],
+  imports: [StripeModule, UsersModule, TypeOrmModule.forFeature([StripeEvent])],
   controllers: [StripeWebhookController],
   providers: [StripeWebhookService],
 })

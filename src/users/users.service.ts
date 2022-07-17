@@ -15,15 +15,16 @@ export class UsersService {
     private usersRepository: Repository<User>,
     private readonly databaseFilesService: DatabaseFilesService,
     private stripeService: StripeService,
-    private localFilesService: LocalFilesService
+    private localFilesService: LocalFilesService,
   ) {}
 
   async updateMonthlySubscriptionStatus(
-    stripeCustomerId: string, monthlySubscriptionStatus: string
+    stripeCustomerId: string,
+    monthlySubscriptionStatus: string,
   ) {
     return this.usersRepository.update(
       { stripeCustomerId },
-      { monthlySubscriptionStatus }
+      { monthlySubscriptionStatus },
     );
   }
 
@@ -32,7 +33,10 @@ export class UsersService {
     if (user) {
       return user;
     }
-    throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async getByIds(ids: number[]) {
@@ -46,15 +50,21 @@ export class UsersService {
     if (user) {
       return user;
     }
-    throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async create(userData: CreateUserDto) {
-    const stripeCustomer = await this.stripeService.createCustomer(userData.name, userData.email);
+    const stripeCustomer = await this.stripeService.createCustomer(
+      userData.name,
+      userData.email,
+    );
 
     const newUser = await this.usersRepository.create({
       ...userData,
-      stripeCustomerId: stripeCustomer.id
+      stripeCustomerId: stripeCustomer.id,
     });
     await this.usersRepository.save(newUser);
     return newUser;
@@ -67,7 +77,7 @@ export class UsersService {
       email,
       name,
       isRegisteredWithGoogle: true,
-      stripeCustomerId: stripeCustomer.id
+      stripeCustomerId: stripeCustomer.id,
     });
     await this.usersRepository.save(newUser);
     return newUser;
@@ -76,14 +86,14 @@ export class UsersService {
   async addAvatar(userId: number, fileData: LocalFileDto) {
     const avatar = await this.localFilesService.saveLocalFileData(fileData);
     await this.usersRepository.update(userId, {
-      avatarId: avatar.id
-    })
+      avatarId: avatar.id,
+    });
   }
 
   async setCurrentRefreshToken(refreshToken: string, userId: number) {
     const currentHashedRefreshToken = await bcrypt.hash(refreshToken, 10);
     await this.usersRepository.update(userId, {
-      currentHashedRefreshToken
+      currentHashedRefreshToken,
     });
   }
 
@@ -92,7 +102,7 @@ export class UsersService {
 
     const isRefreshTokenMatching = await bcrypt.compare(
       refreshToken,
-      user.currentHashedRefreshToken
+      user.currentHashedRefreshToken,
     );
 
     if (isRefreshTokenMatching) {
@@ -101,32 +111,38 @@ export class UsersService {
   }
 
   async markEmailAsConfirmed(email: string) {
-    return this.usersRepository.update({ email }, {
-      isEmailConfirmed: true
-    });
+    return this.usersRepository.update(
+      { email },
+      {
+        isEmailConfirmed: true,
+      },
+    );
   }
 
   markPhoneNumberAsConfirmed(userId: number) {
-    return this.usersRepository.update({ id: userId }, {
-      isPhoneNumberConfirmed: true
-    });
+    return this.usersRepository.update(
+      { id: userId },
+      {
+        isPhoneNumberConfirmed: true,
+      },
+    );
   }
 
   async removeRefreshToken(userId: number) {
     return this.usersRepository.update(userId, {
-      currentHashedRefreshToken: null
+      currentHashedRefreshToken: null,
     });
   }
 
   async setTwoFactorAuthenticationSecret(secret: string, userId: number) {
     return this.usersRepository.update(userId, {
-      twoFactorAuthenticationSecret: secret
+      twoFactorAuthenticationSecret: secret,
     });
   }
 
   async turnOnTwoFactorAuthentication(userId: number) {
     return this.usersRepository.update(userId, {
-      isTwoFactorAuthenticationEnabled: true
+      isTwoFactorAuthenticationEnabled: true,
     });
   }
 }

@@ -6,12 +6,9 @@ import DatabaseFilesService from './databaseFiles.services';
 import DatabaseFilesController from './databaseFilesController';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([DatabaseFile]),
-    ConfigModule,
-  ],
+  imports: [TypeOrmModule.forFeature([DatabaseFile]), ConfigModule],
   providers: [DatabaseFilesService],
   exports: [DatabaseFilesService],
-  controllers: [DatabaseFilesController]
+  controllers: [DatabaseFilesController],
 })
 export class DatabaseFilesModule {}

@@ -8,13 +8,12 @@ import CategoryNotFoundException from './exceptions/categoryNotFound.exception';
 
 @Injectable()
 export default class CategoriesService {
-
   /**
    * @ignore
    */
   constructor(
     @InjectRepository(Category)
-    private categoriesRepository: Repository<Category>
+    private categoriesRepository: Repository<Category>,
   ) {}
 
   /**
@@ -24,8 +23,8 @@ export default class CategoriesService {
   getAllCategories(): Promise<Category[]> {
     return this.categoriesRepository.find({
       relations: {
-        posts: true
-      }
+        posts: true,
+      },
     });
   }
 
@@ -36,17 +35,15 @@ export default class CategoriesService {
    * const category = await categoriesService.getCategoryById(1);
    */
   async getCategoryById(id: number): Promise<Category> {
-    const category = await this.categoriesRepository.findOne(
-      {
-        where: {
-          id
-        },
-        relations: {
-          posts: true
-        },
-        withDeleted: true
-      }
-    );
+    const category = await this.categoriesRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        posts: true,
+      },
+      withDeleted: true,
+    });
     if (category) {
       return category;
     }
@@ -69,18 +66,21 @@ export default class CategoriesService {
   /**
    * See the [definition of the UpdateCategoryDto file]{@link UpdateCategoryDto} to see a list of required properties
    */
-  async updateCategory(id: number, category: UpdateCategoryDto): Promise<Category> {
+  async updateCategory(
+    id: number,
+    category: UpdateCategoryDto,
+  ): Promise<Category> {
     await this.categoriesRepository.update(id, category);
     const updatedCategory = await this.categoriesRepository.findOne({
       where: {
-        id
+        id,
       },
       relations: {
-        posts: true
-      }
+        posts: true,
+      },
     });
     if (updatedCategory) {
-      return updatedCategory
+      return updatedCategory;
     }
     throw new CategoryNotFoundException(id);
   }

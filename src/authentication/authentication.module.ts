@@ -19,10 +19,17 @@ import { EmailConfirmationModule } from '../emailConfirmation/emailConfirmation.
     PassportModule,
     ConfigModule,
     JwtModule.register({}),
-    EmailConfirmationModule
+    EmailConfirmationModule,
   ],
-  providers: [AuthenticationService, LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy, TwoFactorAuthenticationService, JwtTwoFactorStrategy],
+  providers: [
+    AuthenticationService,
+    LocalStrategy,
+    JwtStrategy,
+    JwtRefreshTokenStrategy,
+    TwoFactorAuthenticationService,
+    JwtTwoFactorStrategy,
+  ],
   controllers: [AuthenticationController, TwoFactorAuthenticationController],
-  exports: [AuthenticationService]
+  exports: [AuthenticationService],
 })
 export class AuthenticationModule {}

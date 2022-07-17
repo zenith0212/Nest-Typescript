@@ -18,10 +18,14 @@ export class EmailConfirmationService {
     const payload: VerificationTokenPayload = { email };
     const token = this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
-      expiresIn: `${this.configService.get('JWT_VERIFICATION_TOKEN_EXPIRATION_TIME')}s`
+      expiresIn: `${this.configService.get(
+        'JWT_VERIFICATION_TOKEN_EXPIRATION_TIME',
+      )}s`,
     });
 
-    const url = `${this.configService.get('EMAIL_CONFIRMATION_URL')}?token=${token}`;
+    const url = `${this.configService.get(
+      'EMAIL_CONFIRMATION_URL',
+    )}?token=${token}`;
 
     const text = `Welcome to the application. To confirm the email address, click here: ${url}`;
 
@@ -29,7 +33,7 @@ export class EmailConfirmationService {
       to: email,
       subject: 'Email confirmation',
       text,
-    })
+    });
   }
 
   public async resendConfirmationLink(userId: number) {

@@ -1,6 +1,7 @@
 import {
   ConnectedSocket,
-  MessageBody, OnGatewayConnection,
+  MessageBody,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -13,10 +14,7 @@ export class ChatGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
 
-  constructor(
-    private readonly chatService: ChatService
-  ) {
-  }
+  constructor(private readonly chatService: ChatService) {}
 
   async handleConnection(socket: Socket) {
     await this.chatService.getUserFromSocket(socket);
@@ -34,9 +32,7 @@ export class ChatGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage('request_all_messages')
-  async requestAllMessages(
-    @ConnectedSocket() socket: Socket,
-  ) {
+  async requestAllMessages(@ConnectedSocket() socket: Socket) {
     await this.chatService.getUserFromSocket(socket);
     const messages = await this.chatService.getAllMessages();
 

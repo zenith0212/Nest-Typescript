@@ -12,11 +12,11 @@ async function imageProcessor(job: Job, doneCallback: DoneCallback) {
     return buffer(fileBuffer, {
       plugins: [
         imageminPngquant({
-          quality: [0.6, 0.8]
-        })
-      ]
-    })
-  })
+          quality: [0.6, 0.8],
+        }),
+      ],
+    });
+  });
 
   const optimizedImages = await Promise.all(optimizationPromises);
 
@@ -25,7 +25,7 @@ async function imageProcessor(job: Job, doneCallback: DoneCallback) {
   optimizedImages.forEach((image, index) => {
     const fileData = files[index];
     zip.addFile(fileData.originalname, image);
-  })
+  });
 
   doneCallback(null, zip.toBuffer());
 }

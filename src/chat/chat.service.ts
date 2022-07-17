@@ -14,13 +14,12 @@ export class ChatService {
     private readonly authenticationService: AuthenticationService,
     @InjectRepository(Message)
     private messagesRepository: Repository<Message>,
-  ) {
-  }
+  ) {}
 
   async saveMessage(content: string, author: User) {
     const newMessage = await this.messagesRepository.create({
       content,
-      author
+      author,
     });
     await this.messagesRepository.save(newMessage);
     return newMessage;
@@ -29,15 +28,17 @@ export class ChatService {
   async getAllMessages() {
     return this.messagesRepository.find({
       relations: {
-        author: true
-      }
+        author: true,
+      },
     });
   }
 
   async getUserFromSocket(socket: Socket) {
     const cookie = socket.handshake.headers.cookie;
     const { Authentication: authenticationToken } = parse(cookie);
-    const user = await this.authenticationService.getUserFromAuthenticationToken(authenticationToken);
+    const user = await this.authenticationService.getUserFromAuthenticationToken(
+      authenticationToken,
+    );
     if (!user) {
       throw new WsException('Invalid credentials.');
     }

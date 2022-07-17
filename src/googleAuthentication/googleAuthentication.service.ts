@@ -11,44 +11,43 @@ export class GoogleAuthenticationService {
   constructor(
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
-    private readonly authenticationService: AuthenticationService
+    private readonly authenticationService: AuthenticationService,
   ) {
     const clientID = this.configService.get('GOOGLE_AUTH_CLIENT_ID');
     const clientSecret = this.configService.get('GOOGLE_AUTH_CLIENT_SECRET');
 
-    this.oauthClient = new google.auth.OAuth2(
-      clientID,
-      clientSecret
-    );
+    this.oauthClient = new google.auth.OAuth2(clientID, clientSecret);
   }
 
   async getUserData(token: string) {
     const userInfoClient = google.oauth2('v2').userinfo;
 
     this.oauthClient.setCredentials({
-      access_token: token
-    })
+      access_token: token,
+    });
 
     const userInfoResponse = await userInfoClient.get({
-      auth: this.oauthClient
+      auth: this.oauthClient,
     });
 
     return userInfoResponse.data;
   }
 
   async getCookiesForUser(user: User) {
-    const accessTokenCookie = this.authenticationService.getCookieWithJwtAccessToken(user.id);
+    const accessTokenCookie = this.authenticationService.getCookieWithJwtAccessToken(
+      user.id,
+    );
     const {
       cookie: refreshTokenCookie,
-      token: refreshToken
+      token: refreshToken,
     } = this.authenticationService.getCookieWithJwtRefreshToken(user.id);
 
     await this.usersService.setCurrentRefreshToken(refreshToken, user.id);
 
     return {
       accessTokenCookie,
-      refreshTokenCookie
-    }
+      refreshTokenCookie,
+    };
   }
 
   async handleRegisteredUser(user: User) {
@@ -58,14 +57,14 @@ export class GoogleAuthenticationService {
 
     const {
       accessTokenCookie,
-      refreshTokenCookie
+      refreshTokenCookie,
     } = await this.getCookiesForUser(user);
 
     return {
       accessTokenCookie,
       refreshTokenCookie,
-      user
-    }
+      user,
+    };
   }
 
   async registerUser(token: string, email: string) {
@@ -88,7 +87,7 @@ export class GoogleAuthenticationService {
       return this.handleRegisteredUser(user);
     } catch (error) {
       if (error.status !== 404) {
-        throw new error;
+        throw new error();
       }
 
       return this.registerUser(token, email);

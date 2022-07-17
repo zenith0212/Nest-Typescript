@@ -5,19 +5,21 @@ import SubscriptionsService from './subscriptions.service';
 
 @Controller('subscriptions')
 export default class SubscriptionsController {
-  constructor(
-    private readonly subscriptionsService: SubscriptionsService
-  ) {}
+  constructor(private readonly subscriptionsService: SubscriptionsService) {}
 
   @Post('monthly')
   @UseGuards(JwtAuthenticationGuard)
   async createMonthlySubscription(@Req() request: RequestWithUser) {
-    return this.subscriptionsService.createMonthlySubscription(request.user.stripeCustomerId);
+    return this.subscriptionsService.createMonthlySubscription(
+      request.user.stripeCustomerId,
+    );
   }
 
   @Get('monthly')
   @UseGuards(JwtAuthenticationGuard)
   async getMonthlySubscription(@Req() request: RequestWithUser) {
-    return this.subscriptionsService.getMonthlySubscription(request.user.stripeCustomerId);
+    return this.subscriptionsService.getMonthlySubscription(
+      request.user.stripeCustomerId,
+    );
   }
 }

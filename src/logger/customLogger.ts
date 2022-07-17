@@ -12,17 +12,14 @@ class CustomLogger extends ConsoleLogger {
     context: string,
     options: ConsoleLoggerOptions,
     configService: ConfigService,
-    logsService: LogsService
+    logsService: LogsService,
   ) {
     const environment = configService.get('NODE_ENV');
 
-    super(
-      context,
-      {
-        ...options,
-        logLevels: getLogLevels(environment === 'production')
-      }
-    );
+    super(context, {
+      ...options,
+      logLevels: getLogLevels(environment === 'production'),
+    });
 
     this.logsService = logsService;
   }
@@ -33,8 +30,8 @@ class CustomLogger extends ConsoleLogger {
     this.logsService.createLog({
       message,
       context,
-      level: 'log'
-    })
+      level: 'log',
+    });
   }
   error(message: string, context?: string, stack?: string) {
     super.error.apply(this, [message, context, stack]);
@@ -42,8 +39,8 @@ class CustomLogger extends ConsoleLogger {
     this.logsService.createLog({
       message,
       context,
-      level: 'error'
-    })
+      level: 'error',
+    });
   }
   warn(message: string, context?: string) {
     super.warn.apply(this, [message, context]);
@@ -51,8 +48,8 @@ class CustomLogger extends ConsoleLogger {
     this.logsService.createLog({
       message,
       context,
-      level: 'error'
-    })
+      level: 'error',
+    });
   }
   debug(message: string, context?: string) {
     super.debug.apply(this, [message, context]);
@@ -60,8 +57,8 @@ class CustomLogger extends ConsoleLogger {
     this.logsService.createLog({
       message,
       context,
-      level: 'error'
-    })
+      level: 'error',
+    });
   }
   verbose(message: string, context?: string) {
     super.debug.apply(this, [message, context]);
@@ -69,8 +66,8 @@ class CustomLogger extends ConsoleLogger {
     this.logsService.createLog({
       message,
       context,
-      level: 'error'
-    })
+      level: 'error',
+    });
   }
 }
 

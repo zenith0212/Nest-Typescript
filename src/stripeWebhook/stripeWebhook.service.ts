@@ -32,6 +32,9 @@ export default class StripeWebhookService {
     const customerId: string = data.customer as string;
     const subscriptionStatus = data.status;
 
-    await this.usersService.updateMonthlySubscriptionStatus(customerId, subscriptionStatus);
+    await this.usersService.updateMonthlySubscriptionStatus(
+      customerId,
+      subscriptionStatus,
+    );
   }
 }

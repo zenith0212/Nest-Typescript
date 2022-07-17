@@ -9,7 +9,10 @@ class ProductCategory {
   @Column()
   public name: string;
 
-  @OneToMany(() => Product, (product: Product) => product.category)
+  @OneToMany(
+    () => Product,
+    (product: Product) => product.category,
+  )
   public products: Product[];
 }
 

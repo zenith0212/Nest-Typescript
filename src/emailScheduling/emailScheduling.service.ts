@@ -8,7 +8,7 @@ import { CronJob } from 'cron';
 export default class EmailSchedulingService {
   constructor(
     private readonly emailService: EmailService,
-    private readonly schedulerRegistry: SchedulerRegistry
+    private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
   scheduleEmail(emailSchedule: EmailScheduleDto) {
@@ -17,11 +17,14 @@ export default class EmailSchedulingService {
       this.emailService.sendMail({
         to: emailSchedule.recipient,
         subject: emailSchedule.subject,
-        text: emailSchedule.content
-      })
+        text: emailSchedule.content,
+      });
     });
 
-    this.schedulerRegistry.addCronJob(`${Date.now()}-${emailSchedule.subject}`, job);
+    this.schedulerRegistry.addCronJob(
+      `${Date.now()}-${emailSchedule.subject}`,
+      job,
+    );
     job.start();
   }
 }

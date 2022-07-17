@@ -9,6 +9,6 @@ import { AuthenticationModule } from '../authentication/authentication.module';
   imports: [ConfigModule, UsersModule, AuthenticationModule],
   providers: [GoogleAuthenticationService],
   controllers: [GoogleAuthenticationController],
-  exports: []
+  exports: [],
 })
 export class GoogleAuthenticationModule {}

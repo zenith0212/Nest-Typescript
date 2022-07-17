@@ -1,4 +1,10 @@
-import { IsEmail, IsString, IsNotEmpty, MinLength, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  Matches,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterDto {
@@ -11,7 +17,7 @@ export class RegisterDto {
 
   @ApiProperty({
     deprecated: true,
-    description: 'Use the name property instead'
+    description: 'Use the name property instead',
   })
   fullName: string;
 
@@ -22,7 +28,7 @@ export class RegisterDto {
 
   @ApiProperty({
     description: 'Has to match a regular expression: /^\\+[1-9]\\d{1,14}$/',
-    example: '+123123123123'
+    example: '+123123123123',
   })
   @IsString()
   @IsNotEmpty()

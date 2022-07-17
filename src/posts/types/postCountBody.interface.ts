@@ -1,5 +1,5 @@
 interface PostCountResult {
-  count: number
+  count: number;
 }
 
-export default PostCountResult
+export default PostCountResult;

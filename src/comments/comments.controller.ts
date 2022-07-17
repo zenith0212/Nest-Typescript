@@ -1,8 +1,10 @@
 import {
   Body,
   ClassSerializerInterceptor,
-  Controller, Get,
-  Post, Query,
+  Controller,
+  Get,
+  Post,
+  Query,
   Req,
   UseGuards,
   UseInterceptors,
@@ -18,26 +20,20 @@ import GetCommentsDto from './dto/getComments.dto';
 @Controller('comments')
 @UseInterceptors(ClassSerializerInterceptor)
 export default class CommentsController {
-  constructor(
-    private commandBus: CommandBus,
-    private queryBus: QueryBus,
-  ) {}
+  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
   @Post()
   @UseGuards(JwtAuthenticationGuard)
-  async createComment(@Body() comment: CreateCommentDto, @Req() req: RequestWithUser) {
+  async createComment(
+    @Body() comment: CreateCommentDto,
+    @Req() req: RequestWithUser,
+  ) {
     const user = req.user;
-    return this.commandBus.execute(
-      new CreateCommentCommand(comment, user)
-    )
+    return this.commandBus.execute(new CreateCommentCommand(comment, user));
   }
 
   @Get()
-  async getComments(
-    @Query() { postId }: GetCommentsDto,
-  ) {
-    return this.queryBus.execute(
-      new GetCommentsQuery(postId)
-    )
+  async getComments(@Query() { postId }: GetCommentsDto) {
+    return this.queryBus.execute(new GetCommentsQuery(postId));
   }
 }

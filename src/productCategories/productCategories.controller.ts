@@ -4,7 +4,8 @@ import {
   Get,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor, Post,
+  ClassSerializerInterceptor,
+  Post,
 } from '@nestjs/common';
 import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 import ProductCategoriesService from './productCategories.service';
@@ -13,9 +14,7 @@ import CreateProductCategoryDto from './dto/createProductCategory.dto';
 @Controller('product-categories')
 @UseInterceptors(ClassSerializerInterceptor)
 export default class ProductCategoriesController {
-  constructor(
-    private readonly productsService: ProductCategoriesService
-  ) {}
+  constructor(private readonly productsService: ProductCategoriesService) {}
 
   @Get()
   getAllProducts() {

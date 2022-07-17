@@ -16,12 +16,12 @@ import PostsLoaders from './loaders/posts.loaders';
     CacheModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-        useFactory: (configService: ConfigService) => ({
-          store: redisStore,
-          host: configService.get('REDIS_HOST'),
-          port: configService.get('REDIS_PORT'),
-          ttl: 120
-        }),
+      useFactory: (configService: ConfigService) => ({
+        store: redisStore,
+        host: configService.get('REDIS_HOST'),
+        port: configService.get('REDIS_PORT'),
+        ttl: 120,
+      }),
     }),
     TypeOrmModule.forFeature([Post]),
     SearchModule,

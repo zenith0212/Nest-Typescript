@@ -5,7 +5,9 @@ import {
   Post,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor, Inject, OnModuleInit,
+  ClassSerializerInterceptor,
+  Inject,
+  OnModuleInit,
 } from '@nestjs/common';
 import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 import CreateSubscriberDto from './dto/createSubscriber.dto';
@@ -20,7 +22,9 @@ export default class SubscribersController implements OnModuleInit {
   constructor(@Inject('SUBSCRIBERS_PACKAGE') private client: ClientGrpc) {}
 
   onModuleInit() {
-    this.subscribersService = this.client.getService<SubscribersService>('SubscribersService');
+    this.subscribersService = this.client.getService<SubscribersService>(
+      'SubscribersService',
+    );
   }
 
   @Get()

@@ -5,7 +5,7 @@ export class UpdatePostDto {
   @IsOptional()
   id: number;
 
-  @IsString({each: true})
+  @IsString({ each: true })
   @IsNotEmpty()
   @IsOptional()
   paragraphs: string[];

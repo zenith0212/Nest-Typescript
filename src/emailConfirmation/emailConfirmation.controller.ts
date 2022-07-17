@@ -16,12 +16,14 @@ import RequestWithUser from '../authentication/requestWithUser.interface';
 @UseInterceptors(ClassSerializerInterceptor)
 export class EmailConfirmationController {
   constructor(
-    private readonly emailConfirmationService: EmailConfirmationService
+    private readonly emailConfirmationService: EmailConfirmationService,
   ) {}
 
   @Post('confirm')
   async confirm(@Body() confirmationData: ConfirmEmailDto) {
-    const email = await this.emailConfirmationService.decodeConfirmationToken(confirmationData.token);
+    const email = await this.emailConfirmationService.decodeConfirmationToken(
+      confirmationData.token,
+    );
     await this.emailConfirmationService.confirmEmail(email);
   }
 

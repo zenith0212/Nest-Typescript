@@ -50,13 +50,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       imports: [ConfigModule],
       inject: [ConfigService],
       driver: ApolloDriver,
-      useFactory: (
-        configService: ConfigService,
-      ) => ({
+      useFactory: (configService: ConfigService) => ({
         playground: Boolean(configService.get('GRAPHQL_PLAYGROUND')),
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-        installSubscriptionHandlers: true
-      })
+        installSubscriptionHandlers: true,
+      }),
     }),
     ScheduleModule.forRoot(),
     PostsModule,
@@ -103,8 +101,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
         TWILIO_SENDER_PHONE_NUMBER: Joi.string().required(),
         GOOGLE_AUTH_CLIENT_ID: Joi.string().required(),
         GOOGLE_AUTH_CLIENT_SECRET: Joi.string().required(),
-        UPLOADED_FILES_DESTINATION: Joi.string().required()
-      })
+        UPLOADED_FILES_DESTINATION: Joi.string().required(),
+      }),
     }),
     DatabaseModule,
     AuthenticationModule,
@@ -129,15 +127,13 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     LoggerModule,
     HealthModule,
     DatabaseFilesModule,
-    LocalFilesModule
+    LocalFilesModule,
   ],
   controllers: [],
   providers: [Timestamp],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LogsMiddleware)
-      .forRoutes('*');
+    consumer.apply(LogsMiddleware).forRoutes('*');
   }
 }

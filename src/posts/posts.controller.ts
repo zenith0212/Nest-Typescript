@@ -10,7 +10,9 @@ import {
   Req,
   UseInterceptors,
   ClassSerializerInterceptor,
-  Query, CacheKey, CacheTTL,
+  Query,
+  CacheKey,
+  CacheTTL,
 } from '@nestjs/common';
 import PostEntity from './post.entity';
 import PostsService from './posts.service';
@@ -28,9 +30,7 @@ import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('posts')
 @UseInterceptors(ClassSerializerInterceptor)
 export default class PostsController {
-  constructor(
-    private readonly postsService: PostsService
-  ) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @UseInterceptors(HttpCacheInterceptor)
   @CacheKey(GET_POSTS_CACHE_KEY)
@@ -38,7 +38,7 @@ export default class PostsController {
   @Get()
   async getPosts(
     @Query('search') search: string,
-    @Query() { offset, limit, startId }: PaginationParams
+    @Query() { offset, limit, startId }: PaginationParams,
   ) {
     if (search) {
       return this.postsService.searchForPosts(search, offset, limit, startId);
@@ -51,16 +51,16 @@ export default class PostsController {
     name: 'id',
     required: true,
     description: 'Should be an id of a post that exists in the database',
-    type: Number
+    type: Number,
   })
   @ApiResponse({
     status: 200,
     description: 'A post has been successfully fetched',
-    type: PostEntity
+    type: PostEntity,
   })
   @ApiResponse({
     status: 404,
-    description: 'A post with given id does not exist.'
+    description: 'A post with given id does not exist.',
   })
   getPostById(@Param() { id }: FindOneParams) {
     return this.postsService.getPostById(Number(id));
@@ -73,7 +73,10 @@ export default class PostsController {
   }
 
   @Patch(':id')
-  async updatePost(@Param() { id }: FindOneParams, @Body() post: UpdatePostDto) {
+  async updatePost(
+    @Param() { id }: FindOneParams,
+    @Body() post: UpdatePostDto,
+  ) {
     return this.postsService.updatePost(Number(id), post);
   }
 

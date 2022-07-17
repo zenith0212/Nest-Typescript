@@ -6,12 +6,9 @@ import LocalFilesService from './localFiles.service';
 import LocalFilesController from './localFiles.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([LocalFile]),
-    ConfigModule,
-  ],
+  imports: [TypeOrmModule.forFeature([LocalFile]), ConfigModule],
   providers: [LocalFilesService],
   exports: [LocalFilesService],
-  controllers: [LocalFilesController]
+  controllers: [LocalFilesController],
 })
 export class LocalFilesModule {}

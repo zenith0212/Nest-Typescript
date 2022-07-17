@@ -8,7 +8,7 @@ import CreateProductDto from './dto/createProduct.dto';
 export default class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private productsRepository: Repository<Product>
+    private productsRepository: Repository<Product>,
   ) {}
 
   getAllProducts() {

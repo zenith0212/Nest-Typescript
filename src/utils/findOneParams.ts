@@ -5,4 +5,4 @@ class FindOneParams {
   id: string;
 }
 
-export default FindOneParams
+export default FindOneParams;

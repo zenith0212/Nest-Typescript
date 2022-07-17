@@ -10,16 +10,15 @@ export const PUB_SUB = 'PUB_SUB';
   providers: [
     {
       provide: PUB_SUB,
-      useFactory: (
-        configService: ConfigService
-      ) => new RedisPubSub({
-        connection: {
-          host: configService.get('REDIS_HOST'),
-          port: configService.get('REDIS_PORT'),
-        }
-      }),
-      inject: [ConfigService]
-    }
+      useFactory: (configService: ConfigService) =>
+        new RedisPubSub({
+          connection: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
+          },
+        }),
+      inject: [ConfigService],
+    },
   ],
   exports: [PUB_SUB],
 })

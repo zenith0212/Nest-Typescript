@@ -13,25 +13,30 @@ import { GET_POSTS_CACHE_KEY } from './postsCacheKey.constant';
 
 @Injectable()
 export default class PostsService {
-  private readonly logger = new Logger(PostsService.name)
+  private readonly logger = new Logger(PostsService.name);
 
   constructor(
     @InjectRepository(Post)
     private postsRepository: Repository<Post>,
     private postsSearchService: PostsSearchService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async clearCache() {
     const keys: string[] = await this.cacheManager.store.keys();
-    keys.forEach((key) => {
+    keys.forEach(key => {
       if (key.startsWith(GET_POSTS_CACHE_KEY)) {
         this.cacheManager.del(key);
       }
-    })
+    });
   }
 
-  async getPosts(offset?: number, limit?: number, startId?: number, options?: FindManyOptions<Post>) {
+  async getPosts(
+    offset?: number,
+    limit?: number,
+    startId?: number,
+    options?: FindManyOptions<Post>,
+  ) {
     const where: FindManyOptions<Post>['where'] = {};
     let separateCount = 0;
     if (startId) {
@@ -42,33 +47,33 @@ export default class PostsService {
     const [items, count] = await this.postsRepository.findAndCount({
       where,
       order: {
-        id: 'ASC'
+        id: 'ASC',
       },
       skip: offset,
       take: limit,
-      ...options
+      ...options,
     });
 
     return {
       items,
-      count: startId ? separateCount : count
-    }
+      count: startId ? separateCount : count,
+    };
   }
 
   async getPostsWithAuthors(offset?: number, limit?: number, startId?: number) {
     return this.getPosts(offset, limit, startId, {
       relations: {
-        author: true
-      }
-    })
+        author: true,
+      },
+    });
   }
 
   async getPostById(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
       relations: {
-        author: true
-      }
+        author: true,
+      },
     });
     if (post) {
       return post;
@@ -80,7 +85,7 @@ export default class PostsService {
   async createPost(post: CreatePostDto, user: User) {
     const newPost = await this.postsRepository.create({
       ...post,
-      author: user
+      author: user,
     });
     await this.postsRepository.save(newPost);
     this.postsSearchService.indexPost(newPost);
@@ -92,11 +97,11 @@ export default class PostsService {
     await this.postsRepository.update(id, post);
     const updatedPost = await this.postsRepository.findOne({
       where: {
-        id
+        id,
       },
       relations: {
-        author: true
-      }
+        author: true,
+      },
     });
     if (updatedPost) {
       await this.postsSearchService.update(updatedPost);
@@ -115,22 +120,31 @@ export default class PostsService {
     await this.clearCache();
   }
 
-  async searchForPosts(text: string, offset?: number, limit?: number, startId?: number) {
-    const { results, count } = await this.postsSearchService.search(text, offset, limit, startId);
+  async searchForPosts(
+    text: string,
+    offset?: number,
+    limit?: number,
+    startId?: number,
+  ) {
+    const { results, count } = await this.postsSearchService.search(
+      text,
+      offset,
+      limit,
+      startId,
+    );
     const ids = results.map(result => result.id);
     if (!ids.length) {
       return {
         items: [],
-        count
-      }
+        count,
+      };
     }
-    const items = await this.postsRepository
-      .find({
-        where: { id: In(ids) }
-      });
+    const items = await this.postsRepository.find({
+      where: { id: In(ids) },
+    });
     return {
       items,
-      count
-    }
+      count,
+    };
   }
 }

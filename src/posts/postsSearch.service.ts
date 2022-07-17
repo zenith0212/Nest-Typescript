@@ -7,11 +7,9 @@ import PostCountResult from './types/postCountBody.interface';
 
 @Injectable()
 export default class PostsSearchService {
-  index = 'posts'
+  index = 'posts';
 
-  constructor(
-    private readonly elasticsearchService: ElasticsearchService
-  ) {}
+  constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
   async indexPost(post: Post) {
     return this.elasticsearchService.index<PostSearchResult, PostSearchBody>({
@@ -20,9 +18,9 @@ export default class PostsSearchService {
         id: post.id,
         title: post.title,
         paragraphs: post.paragraphs,
-        authorId: post.author.id
-      }
-    })
+        authorId: post.author.id,
+      },
+    });
   }
 
   async count(query: string, fields: string[]) {
@@ -32,20 +30,15 @@ export default class PostsSearchService {
         query: {
           multi_match: {
             query,
-            fields
-          }
-        }
-      }
-    })
+            fields,
+          },
+        },
+      },
+    });
     return body.count;
   }
 
-  async search(
-    text: string,
-    offset?: number,
-    limit?: number,
-    startId = 0
-  ) {
+  async search(text: string, offset?: number, limit?: number, startId = 0) {
     let separateCount = 0;
     if (startId) {
       separateCount = await this.count(text, ['title', 'paragraphs']);
@@ -60,32 +53,32 @@ export default class PostsSearchService {
             should: {
               multi_match: {
                 query: text,
-                fields: ['title', 'paragraphs']
-              }
+                fields: ['title', 'paragraphs'],
+              },
             },
             filter: {
               range: {
                 id: {
-                  gt: startId
-                }
-              }
-            }
-          }
+                  gt: startId,
+                },
+              },
+            },
+          },
         },
         sort: {
           id: {
-            order: 'asc'
-          }
-        }
-      }
-    })
+            order: 'asc',
+          },
+        },
+      },
+    });
     const count = body.hits.total.value;
     const hits = body.hits.hits;
-    const results = hits.map((item) => item._source);
+    const results = hits.map(item => item._source);
     return {
       count: startId ? separateCount : count,
-      results
-    }
+      results,
+    };
   }
 
   async remove(postId: number) {
@@ -95,10 +88,10 @@ export default class PostsSearchService {
         query: {
           match: {
             id: postId,
-          }
-        }
-      }
-    })
+          },
+        },
+      },
+    });
   }
 
   async update(post: Post) {
@@ -106,8 +99,8 @@ export default class PostsSearchService {
       id: post.id,
       title: post.title,
       paragraphs: post.paragraphs,
-      authorId: post.author.id
-    }
+      authorId: post.author.id,
+    };
 
     const script = Object.entries(newBody).reduce((result, [key, value]) => {
       return `${result} ctx._source.${key}='${value}';`;
@@ -119,12 +112,12 @@ export default class PostsSearchService {
         query: {
           match: {
             id: post.id,
-          }
+          },
         },
         script: {
-          inline: script
-        }
-      }
-    })
+          inline: script,
+        },
+      },
+    });
   }
 }

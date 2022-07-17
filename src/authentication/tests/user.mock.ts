@@ -11,12 +11,12 @@ const mockedUser: User = {
     id: 1,
     street: 'streetName',
     city: 'cityName',
-    country: 'countryName'
+    country: 'countryName',
   },
   isTwoFactorAuthenticationEnabled: false,
   isEmailConfirmed: false,
   isPhoneNumberConfirmed: false,
   isRegisteredWithGoogle: false,
-}
+};
 
 export default mockedUser;

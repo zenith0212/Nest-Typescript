@@ -17,27 +17,26 @@ describe('The AuthenticationService', () => {
         AuthenticationService,
         {
           provide: ConfigService,
-          useValue: mockedConfigService
+          useValue: mockedConfigService,
         },
         {
           provide: JwtService,
-          useValue: mockedJwtService
+          useValue: mockedJwtService,
         },
         {
           provide: getRepositoryToken(User),
-          useValue: {}
-        }
+          useValue: {},
+        },
       ],
-    })
-      .compile();
+    }).compile();
     authenticationService = await module.get(AuthenticationService);
-  })
+  });
   describe('when creating a cookie', () => {
     it('should return a string', () => {
       const userId = 1;
       expect(
-        typeof authenticationService.getCookieWithJwtToken(userId)
-      ).toEqual('string')
-    })
-  })
+        typeof authenticationService.getCookieWithJwtToken(userId),
+      ).toEqual('string');
+    });
+  });
 });

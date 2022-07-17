@@ -5,7 +5,8 @@ import Comment from '../../comment.entity';
 import { Repository } from 'typeorm';
 
 @CommandHandler(CreateCommentCommand)
-export class CreateCommentHandler implements ICommandHandler<CreateCommentCommand> {
+export class CreateCommentHandler
+  implements ICommandHandler<CreateCommentCommand> {
   constructor(
     @InjectRepository(Comment)
     private commentsRepository: Repository<Comment>,
@@ -14,7 +15,7 @@ export class CreateCommentHandler implements ICommandHandler<CreateCommentComman
   async execute(command: CreateCommentCommand) {
     const newPost = await this.commentsRepository.create({
       ...command.comment,
-      author: command.author
+      author: command.author,
     });
     await this.commentsRepository.save(newPost);
     return newPost;

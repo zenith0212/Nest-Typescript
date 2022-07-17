@@ -1,11 +1,14 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import RequestWithUser from '../authentication/requestWithUser.interface';
 
 @Injectable()
 export class EmailConfirmationGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ) {
+  canActivate(context: ExecutionContext) {
     const request: RequestWithUser = context.switchToHttp().getRequest();
 
     if (!request.user?.isEmailConfirmed) {

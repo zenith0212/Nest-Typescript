@@ -1,8 +1,8 @@
 interface PostSearchBody {
-  id: number,
-  title: string,
-  paragraphs: string[],
-  authorId: number
+  id: number;
+  title: string;
+  paragraphs: string[];
+  authorId: number;
 }
 
-export default PostSearchBody
+export default PostSearchBody;

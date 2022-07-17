@@ -5,6 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [ConfigModule],
   providers: [StripeService],
-  exports: [StripeService]
+  exports: [StripeService],
 })
 export class StripeModule {}

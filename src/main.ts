@@ -13,9 +13,11 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.useLogger(app.get(CustomLogger));
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
   app.use(cookieParser());
 
   const configService = app.get(ConfigService);
@@ -27,7 +29,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: configService.get('FRONTEND_URL'),
-    credentials: true
+    credentials: true,
   });
 
   app.use(rawBodyMiddleware());

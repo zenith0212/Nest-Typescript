@@ -1,9 +1,7 @@
 import * as cluster from 'cluster';
 import * as os from 'os';
 
-export function runInCluster(
-  bootstrap: () => Promise<void>
-) {
+export function runInCluster(bootstrap: () => Promise<void>) {
   const numberOfCores = os.cpus().length;
 
   if (cluster.isMaster) {

@@ -15,7 +15,10 @@ class Address {
   @Column()
   public country: string;
 
-  @OneToOne(() => User, (user: User) => user.address)
+  @OneToOne(
+    () => User,
+    (user: User) => user.address,
+  )
   public user?: User;
 }
 

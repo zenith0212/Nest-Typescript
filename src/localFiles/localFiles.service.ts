@@ -11,13 +11,13 @@ class LocalFilesService {
   ) {}
 
   async saveLocalFileData(fileData: LocalFileDto) {
-    const newFile = await this.localFilesRepository.create(fileData)
+    const newFile = await this.localFilesRepository.create(fileData);
     await this.localFilesRepository.save(newFile);
     return newFile;
   }
 
   async getFileById(fileId: number) {
-    const file = await this.localFilesRepository.findOneBy({ id : fileId });
+    const file = await this.localFilesRepository.findOneBy({ id: fileId });
     if (!file) {
       throw new NotFoundException();
     }

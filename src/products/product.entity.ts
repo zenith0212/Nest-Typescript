@@ -11,11 +11,14 @@ class Product {
   @Column()
   public name: string;
 
-  @ManyToOne(() => ProductCategory, (category: ProductCategory) => category.products)
+  @ManyToOne(
+    () => ProductCategory,
+    (category: ProductCategory) => category.products,
+  )
   public category: ProductCategory;
 
   @Column({
-    type: 'jsonb'
+    type: 'jsonb',
   })
   public properties: CarProperties | BookProperties;
 }

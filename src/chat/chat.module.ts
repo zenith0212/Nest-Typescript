@@ -6,10 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import Message from './message.entity';
 
 @Module({
-  imports: [
-    AuthenticationModule,
-    TypeOrmModule.forFeature([Message]),
-  ],
+  imports: [AuthenticationModule, TypeOrmModule.forFeature([Message])],
   controllers: [],
   providers: [ChatGateway, ChatService],
 })

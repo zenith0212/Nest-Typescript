@@ -10,6 +10,6 @@ import { UsersModule } from '../users/users.module';
   imports: [ConfigModule, EmailModule, JwtModule.register({}), UsersModule],
   providers: [EmailConfirmationService],
   exports: [EmailConfirmationService],
-  controllers: [EmailConfirmationController]
+  controllers: [EmailConfirmationController],
 })
 export class EmailConfirmationModule {}

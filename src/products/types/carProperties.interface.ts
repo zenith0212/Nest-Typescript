@@ -3,5 +3,5 @@ export interface CarProperties {
   engine: {
     fuel: string;
     numberOfCylinders: number;
-  }
+  };
 }

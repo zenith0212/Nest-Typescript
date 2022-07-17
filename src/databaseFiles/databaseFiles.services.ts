@@ -10,17 +10,24 @@ class DatabaseFilesService {
     private databaseFilesRepository: Repository<DatabaseFile>,
   ) {}
 
-  async uploadDatabaseFileWithQueryRunner(dataBuffer: Buffer, filename: string, queryRunner: QueryRunner) {
+  async uploadDatabaseFileWithQueryRunner(
+    dataBuffer: Buffer,
+    filename: string,
+    queryRunner: QueryRunner,
+  ) {
     const newFile = await queryRunner.manager.create(DatabaseFile, {
       filename,
-      data: dataBuffer
-    })
+      data: dataBuffer,
+    });
     await queryRunner.manager.save(DatabaseFile, newFile);
     return newFile;
   }
 
   async deleteFileWithQueryRunner(fileId: number, queryRunner: QueryRunner) {
-    const deleteResponse = await queryRunner.manager.delete(DatabaseFile, fileId);
+    const deleteResponse = await queryRunner.manager.delete(
+      DatabaseFile,
+      fileId,
+    );
     if (!deleteResponse.affected) {
       throw new NotFoundException();
     }
@@ -28,7 +35,7 @@ class DatabaseFilesService {
 
   async getFileById(fileId: number) {
     const file = await this.databaseFilesRepository.findOneBy({
-      id: fileId
+      id: fileId,
     });
     if (!file) {
       throw new NotFoundException();

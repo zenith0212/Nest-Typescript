@@ -8,7 +8,7 @@ import {
   Index,
   OneToMany,
   RelationId,
-  CreateDateColumn
+  CreateDateColumn,
 } from 'typeorm';
 import User from '../users/user.entity';
 import Category from '../categories/category.entity';
@@ -26,17 +26,26 @@ class Post {
   public paragraphs: string[];
 
   @Index('post_authorId_index')
-  @ManyToOne(() => User, (author: User) => author.posts)
-  public author: User
+  @ManyToOne(
+    () => User,
+    (author: User) => author.posts,
+  )
+  public author: User;
 
   @RelationId((post: Post) => post.author)
   public authorId: number;
 
-  @ManyToMany(() => Category, (category: Category) => category.posts)
+  @ManyToMany(
+    () => Category,
+    (category: Category) => category.posts,
+  )
   @JoinTable()
   public categories: Category[];
 
-  @OneToMany(() => Comment, (comment: Comment) => comment.post)
+  @OneToMany(
+    () => Comment,
+    (comment: Comment) => comment.post,
+  )
   public comments: Comment[];
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -44,7 +53,7 @@ class Post {
 
   @Column({
     type: 'timestamp',
-    nullable: true
+    nullable: true,
   })
   scheduledDate?: Date;
 }

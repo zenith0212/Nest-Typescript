@@ -6,13 +6,18 @@ import StripeService from '../stripe/stripe.service';
 
 @Controller('charge')
 export default class ChargeController {
-  constructor(
-    private readonly stripeService: StripeService
-  ) {}
+  constructor(private readonly stripeService: StripeService) {}
 
   @Post()
   @UseGuards(JwtAuthenticationGuard)
-  async createCharge(@Body() charge: CreateChargeDto, @Req() request: RequestWithUser) {
-    return this.stripeService.charge(charge.amount, charge.paymentMethodId, request.user.stripeCustomerId);
+  async createCharge(
+    @Body() charge: CreateChargeDto,
+    @Req() request: RequestWithUser,
+  ) {
+    return this.stripeService.charge(
+      charge.amount,
+      charge.paymentMethodId,
+      request.user.stripeCustomerId,
+    );
   }
 }

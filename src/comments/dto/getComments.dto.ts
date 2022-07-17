@@ -7,4 +7,4 @@ class GetCommentsDto {
   postId?: number;
 }
 
-export default GetCommentsDto
+export default GetCommentsDto;

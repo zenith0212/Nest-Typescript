@@ -8,7 +8,7 @@ import CreateProductCategoryDto from './dto/createProductCategory.dto';
 export default class ProductCategoriesService {
   constructor(
     @InjectRepository(ProductCategory)
-    private productCategoriesRepository: Repository<ProductCategory>
+    private productCategoriesRepository: Repository<ProductCategory>,
   ) {}
 
   getAllProductCategories() {
@@ -16,7 +16,9 @@ export default class ProductCategoriesService {
   }
 
   async createProductCategory(category: CreateProductCategoryDto) {
-    const newProductCategory = await this.productCategoriesRepository.create(category);
+    const newProductCategory = await this.productCategoriesRepository.create(
+      category,
+    );
     await this.productCategoriesRepository.save(newProductCategory);
     return newProductCategory;
   }

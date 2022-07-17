@@ -7,15 +7,13 @@ import { ConfigService } from '@nestjs/config';
 export default class EmailService {
   private nodemailerTransport: Mail;
 
-  constructor(
-    private readonly configService: ConfigService
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.nodemailerTransport = createTransport({
       service: configService.get('EMAIL_SERVICE'),
       auth: {
         user: configService.get('EMAIL_USER'),
         pass: configService.get('EMAIL_PASSWORD'),
-      }
+      },
     });
   }
 

@@ -7,14 +7,16 @@ import { join } from 'path';
   imports: [
     BullModule.registerQueue({
       name: 'image',
-      processors: [{
-        name: 'optimize',
-        path: join(__dirname, 'image.processor.js')
-      }],
-    })
+      processors: [
+        {
+          name: 'optimize',
+          path: join(__dirname, 'image.processor.js'),
+        },
+      ],
+    }),
   ],
   providers: [],
   exports: [],
-  controllers: [OptimizeController]
+  controllers: [OptimizeController],
 })
 export class OptimizeModule {}

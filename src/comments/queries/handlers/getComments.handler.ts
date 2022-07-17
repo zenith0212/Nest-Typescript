@@ -15,8 +15,8 @@ export class GetCommentsHandler implements IQueryHandler<GetCommentsQuery> {
     if (query.postId) {
       return this.commentsRepository.findBy({
         post: {
-          id: query.postId
-        }
+          id: query.postId,
+        },
       });
     }
     return this.commentsRepository.find();

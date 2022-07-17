@@ -14,10 +14,10 @@ import { LocalFilesModule } from '../localFiles/localFiles.module';
     DatabaseFilesModule,
     StripeModule,
     LocalFilesModule,
-    ConfigModule
+    ConfigModule,
   ],
   providers: [UsersService],
   exports: [UsersService],
-  controllers: [UsersController]
+  controllers: [UsersController],
 })
 export class UsersModule {}
