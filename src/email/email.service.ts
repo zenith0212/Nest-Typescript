@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
-import { EMAIL_CONFIG_OPTIONS } from './constants';
 import Mail from 'nodemailer/lib/mailer';
 import EmailOptions from './emailOptions.interface';
+import { EMAIL_CONFIG_OPTIONS } from './email.module-definition';
 
 @Injectable()
 export default class EmailService {
